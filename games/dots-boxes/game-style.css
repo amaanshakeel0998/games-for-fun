@@ -464,6 +464,7 @@ body::before {
     transition: transform 0.3s ease;
     cursor: grab;
     margin-top: 10px;
+    touch-action: none;
 }
 
 .game-board.dragging {
@@ -487,6 +488,7 @@ body::before {
     background-color: #00ff88;
     box-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
     transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    pointer-events: none;
 }
 
 .dot.selected .dot-core {
