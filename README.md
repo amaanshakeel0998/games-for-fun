@@ -68,7 +68,7 @@ Each game has its own HTML, CSS, and JavaScript files.
 Game-Hub/
 ├── index.html
 ├── style.css
-└── games/
+├── games/
 ├── dots-boxes/
 │ ├── dots-boxes.html
 │ ├── game-style.css
@@ -77,7 +77,7 @@ Game-Hub/
 │ ├── tic-tac-toe.html
 │ ├── tic-tac-toe-style.css
 │ └── tic-tac-toe-script.js
-└── Snake/
+├── Snake/
 ├── snake.html
 ├── snake-style.css
 └── snake-script.js
