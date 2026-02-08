@@ -478,13 +478,24 @@ body::before {
     -moz-user-select: none;
     -ms-user-select: none;
     touch-action: none;
+    border-radius: 50%;
 }
 
-.dot:hover {
-    transform: scale(1.2);
+.dot-core {
+    display: block;
+    border-radius: 50%;
+    background-color: #00ff88;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-.dot:active {
+.dot.selected .dot-core {
+    background-color: #ffff00;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 1);
+    transform: scale(1.25);
+}
+
+.dot:active .dot-core {
     transform: scale(1.1);
 }
 

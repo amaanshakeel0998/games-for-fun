@@ -10,11 +10,9 @@ let gameState = {
     lines: [],
     boxes: [],
     zoom: 1,
-    isDragging: false,
     dragStart: { x: 0, y: 0 },
     boardPosition: { x: 0, y: 0 },
-    isPaused: false,
-    dotsSelected: 0
+    isPaused: false
 };
 const DOTS_BOXES_RESULT_KEY = 'gamehub.dotsboxes.lastResult';
 
@@ -147,6 +145,7 @@ function initializeBoard() {
     
     const spacing = Math.max(40, Math.min(60, 400 / gameState.gridSize));
     const dotSize = Math.max(8, Math.min(12, 100 / gameState.gridSize));
+    const hitSize = Math.max(28, Math.round(dotSize * 2.5));
     
     gameBoard.style.display = 'grid';
     gameBoard.style.gridTemplateColumns = `repeat(${gameState.gridSize}, ${spacing}px)`;
@@ -162,16 +161,22 @@ function initializeBoard() {
         for (let col = 0; col < gameState.gridSize; col++) {
             const dot = document.createElement('div');
             dot.className = 'dot';
-            dot.style.width = dotSize + 'px';
-            dot.style.height = dotSize + 'px';
-            dot.style.backgroundColor = '#00ff88';
-            dot.style.borderRadius = '50%';
+            dot.style.width = hitSize + 'px';
+            dot.style.height = hitSize + 'px';
             dot.style.position = 'relative';
             dot.style.zIndex = '10';
             dot.style.margin = 'auto';
-            dot.style.boxShadow = '0 0 10px rgba(0, 255, 136, 0.8)';
+            dot.style.display = 'flex';
+            dot.style.alignItems = 'center';
+            dot.style.justifyContent = 'center';
             dot.dataset.row = row;
             dot.dataset.col = col;
+
+            const dotCore = document.createElement('span');
+            dotCore.className = 'dot-core';
+            dotCore.style.width = dotSize + 'px';
+            dotCore.style.height = dotSize + 'px';
+            dot.appendChild(dotCore);
             
             gameBoard.appendChild(dot);
             gameState.dots.push({ row, col, element: dot });
@@ -193,208 +198,66 @@ function initializeBoard() {
     // Add drag listeners to dots
     const dots = document.querySelectorAll('.dot');
     dots.forEach(dot => {
-        // Mouse events
-        dot.addEventListener('mousedown', (e) => handleDotMouseDown(e, dot));
-        dot.addEventListener('mouseenter', (e) => handleDotMouseEnter(e, dot));
-        dot.addEventListener('mouseup', (e) => handleDotMouseUp(e, dot));
-        
-        // Touch events
-        dot.addEventListener('touchstart', (e) => handleDotTouchStart(e, dot), { passive: true });
-        dot.addEventListener('touchmove', (e) => handleDotTouchMove(e, dot), { passive: false });
-        dot.addEventListener('touchend', (e) => handleDotTouchEnd(e, dot), { passive: false });
+        dot.addEventListener('pointerdown', (e) => handleDotSelect(e, dot));
+        dot.addEventListener('mousedown', (e) => handleDotSelect(e, dot));
+        dot.addEventListener('touchstart', (e) => handleDotSelect(e, dot), { passive: false });
     });
-    
-    // Add global mouse up listener
-    document.addEventListener('mouseup', handleGlobalMouseUp);
 }
 
 let selectedDot = null;
-let isDragging = false;
-
-function handleDotMouseDown(e, dot) {
-    if (gameState.isPaused) return; // Don't allow moves when paused
-    
+function handleDotSelect(e, dot) {
+    if (gameState.isPaused) return;
     e.preventDefault();
     e.stopPropagation();
-    isDragging = true;
-    selectedDot = dot;
-    gameState.dotsSelected = 1;
-    dot.style.backgroundColor = '#ffff00';
-    dot.style.boxShadow = '0 0 20px rgba(255, 255, 0, 1)';
-    dot.style.transform = 'scale(1.3)';
-}
 
-function handleDotMouseEnter(e, dot) {
-    if (gameState.isPaused) return; // Don't allow moves when paused
-    if (!isDragging || !selectedDot || gameState.dotsSelected >= 2) return;
-    
-    const row1 = parseInt(selectedDot.dataset.row);
-    const col1 = parseInt(selectedDot.dataset.col);
-    const row2 = parseInt(dot.dataset.row);
-    const col2 = parseInt(dot.dataset.col);
-    
-    // Check if it's a valid line (horizontal or vertical, adjacent)
-    const isHorizontal = row1 === row2 && Math.abs(col1 - col2) === 1;
-    const isVertical = col1 === col2 && Math.abs(row1 - row2) === 1;
-    
-    if (isHorizontal || isVertical) {
-        gameState.dotsSelected = 2;
-        dot.style.backgroundColor = '#ffff00';
-        dot.style.boxShadow = '0 0 20px rgba(255, 255, 0, 1)';
-        dot.style.transform = 'scale(1.3)';
+    if (!selectedDot) {
+        selectedDot = dot;
+        dot.classList.add('selected');
+        return;
     }
-}
 
-function handleDotMouseUp(e, dot) {
-    if (gameState.isPaused) return; // Don't allow moves when paused
-    
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (!isDragging || !selectedDot) return;
-    
+    if (selectedDot === dot) {
+        resetAllDots();
+        selectedDot = null;
+        return;
+    }
+
     const row1 = parseInt(selectedDot.dataset.row);
     const col1 = parseInt(selectedDot.dataset.col);
     const row2 = parseInt(dot.dataset.row);
     const col2 = parseInt(dot.dataset.col);
-    
-    // Check if it's a valid line (horizontal or vertical, adjacent)
+
     const isHorizontal = row1 === row2 && Math.abs(col1 - col2) === 1;
     const isVertical = col1 === col2 && Math.abs(row1 - row2) === 1;
-    
-    if ((isHorizontal || isVertical) && gameState.dotsSelected === 2) {
+
+    if (isHorizontal || isVertical) {
         const lineKey = getLineKey(row1, col1, row2, col2);
-        
         if (!gameState.lines.includes(lineKey)) {
             gameState.lines.push(lineKey);
             drawLine(row1, col1, row2, col2);
-            
+
             const boxesCaptured = checkBoxes(row1, col1, row2, col2);
-            
+
             if (boxesCaptured === 0) {
                 switchPlayer();
             } else {
                 resetTimer();
             }
         }
-    }
-    
-    // Reset all dots
-    resetAllDots();
-    isDragging = false;
-    selectedDot = null;
-    gameState.dotsSelected = 0;
-}
-
-function handleGlobalMouseUp(e) {
-    if (isDragging) {
         resetAllDots();
-        isDragging = false;
         selectedDot = null;
-        gameState.dotsSelected = 0;
+        return;
     }
-}
 
-function handleDotTouchStart(e, dot) {
-    if (gameState.isPaused) return; // Don't allow moves when paused
-    
-    e.stopPropagation();
-    isDragging = true;
-    selectedDot = dot;
-    gameState.dotsSelected = 1;
-    dot.style.backgroundColor = '#ffff00';
-    dot.style.boxShadow = '0 0 20px rgba(255, 255, 0, 1)';
-    dot.style.transform = 'scale(1.3)';
-}
-
-function handleDotTouchMove(e, dot) {
-    if (gameState.isPaused) return; // Don't allow moves when paused
-    if (!isDragging || !selectedDot || gameState.dotsSelected >= 2) return;
-    e.preventDefault();
-    
-    const touch = e.touches[0];
-    const element = document.elementFromPoint(touch.clientX, touch.clientY);
-    
-    if (element && element.classList.contains('dot')) {
-        const row1 = parseInt(selectedDot.dataset.row);
-        const col1 = parseInt(selectedDot.dataset.col);
-        const row2 = parseInt(element.dataset.row);
-        const col2 = parseInt(element.dataset.col);
-        
-        // Reset all dots first except selected
-        const allDots = document.querySelectorAll('.dot');
-        allDots.forEach(d => {
-            if (d !== selectedDot) {
-                d.style.backgroundColor = '#00ff88';
-                d.style.boxShadow = '0 0 10px rgba(0, 255, 136, 0.8)';
-                d.style.transform = 'scale(1)';
-            }
-        });
-        
-        // Check if it's a valid line (horizontal or vertical, adjacent)
-        const isHorizontal = row1 === row2 && Math.abs(col1 - col2) === 1;
-        const isVertical = col1 === col2 && Math.abs(row1 - row2) === 1;
-        
-        if (isHorizontal || isVertical) {
-            gameState.dotsSelected = 2;
-            element.style.backgroundColor = '#ffff00';
-            element.style.boxShadow = '0 0 20px rgba(255, 255, 0, 1)';
-            element.style.transform = 'scale(1.3)';
-        }
-    } else {
-        gameState.dotsSelected = 1;
-    }
-}
-
-function handleDotTouchEnd(e, dot) {
-    if (gameState.isPaused) return; // Don't allow moves when paused
-    if (!isDragging || !selectedDot) return;
-    e.preventDefault();
-    
-    const touch = e.changedTouches[0];
-    const element = document.elementFromPoint(touch.clientX, touch.clientY);
-    
-    if (element && element.classList.contains('dot') && gameState.dotsSelected === 2) {
-        const row1 = parseInt(selectedDot.dataset.row);
-        const col1 = parseInt(selectedDot.dataset.col);
-        const row2 = parseInt(element.dataset.row);
-        const col2 = parseInt(element.dataset.col);
-        
-        // Check if it's a valid line (horizontal or vertical, adjacent)
-        const isHorizontal = row1 === row2 && Math.abs(col1 - col2) === 1;
-        const isVertical = col1 === col2 && Math.abs(row1 - row2) === 1;
-        
-        if (isHorizontal || isVertical) {
-            const lineKey = getLineKey(row1, col1, row2, col2);
-            
-            if (!gameState.lines.includes(lineKey)) {
-                gameState.lines.push(lineKey);
-                drawLine(row1, col1, row2, col2);
-                
-                const boxesCaptured = checkBoxes(row1, col1, row2, col2);
-                
-                if (boxesCaptured === 0) {
-                    switchPlayer();
-                } else {
-                    resetTimer();
-                }
-            }
-        }
-    }
-    
-    // Reset all dots
     resetAllDots();
-    isDragging = false;
-    selectedDot = null;
-    gameState.dotsSelected = 0;
+    selectedDot = dot;
+    dot.classList.add('selected');
 }
 
 function resetAllDots() {
     const allDots = document.querySelectorAll('.dot');
     allDots.forEach(dot => {
-        dot.style.backgroundColor = '#00ff88';
-        dot.style.boxShadow = '0 0 10px rgba(0, 255, 136, 0.8)';
-        dot.style.transform = 'scale(1)';
+        dot.classList.remove('selected');
     });
 }
 
