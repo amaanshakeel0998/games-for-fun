@@ -300,6 +300,8 @@ function bindTouchButton(button, nextDirection) {
         handleDirectionInput(nextDirection);
     };
     button.addEventListener('touchstart', handler, { passive: false });
+    button.addEventListener('touchmove', handler, { passive: false });
+    button.addEventListener('pointerdown', handler);
     button.addEventListener('mousedown', handler);
 }
 
