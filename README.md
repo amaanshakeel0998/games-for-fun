@@ -58,12 +58,13 @@ A fast-paced arcade classic.
 
 No additional dependencies or installation steps are required.
 
----
 
 ## Project Structure
 
 The project is organized by game.  
 Each game has its own HTML, CSS, and JavaScript files.
+
+---
 
 Game-Hub/
 ├── index.html
@@ -81,7 +82,6 @@ Game-Hub/
 ├── snake.html
 ├── snake-style.css
 └── snake-script.js
-
 
 ---
 
