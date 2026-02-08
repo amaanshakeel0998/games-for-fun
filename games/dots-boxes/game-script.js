@@ -409,12 +409,9 @@ function getLineKey(row1, col1, row2, col2) {
 function getDotCenter(row, col) {
     const dot = document.querySelector(`.dot[data-row="${row}"][data-col="${col}"]`);
     if (!dot) return null;
-
-    const boardRect = gameBoard.getBoundingClientRect();
-    const dotRect = dot.getBoundingClientRect();
     return {
-        x: dotRect.left - boardRect.left + dotRect.width / 2,
-        y: dotRect.top - boardRect.top + dotRect.height / 2
+        x: dot.offsetLeft + dot.offsetWidth / 2,
+        y: dot.offsetTop + dot.offsetHeight / 2
     };
 }
 

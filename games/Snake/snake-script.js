@@ -8,6 +8,10 @@ const backBtn = document.getElementById('backBtn');
 const homeBtn = document.getElementById('homeBtn');
 const pauseBtn = document.getElementById('pauseBtn');
 const resumeBtn = document.getElementById('resumeBtn');
+const touchUpBtn = document.getElementById('touchUp');
+const touchDownBtn = document.getElementById('touchDown');
+const touchLeftBtn = document.getElementById('touchLeft');
+const touchRightBtn = document.getElementById('touchRight');
 
 const speedSelect = document.getElementById('speed');
 const gridSelect = document.getElementById('grid');
@@ -289,6 +293,16 @@ function handleKeydown(event) {
     if (key === ' ' || key === 'p') togglePause();
 }
 
+function bindTouchButton(button, nextDirection) {
+    if (!button) return;
+    const handler = (event) => {
+        event.preventDefault();
+        handleDirectionInput(nextDirection);
+    };
+    button.addEventListener('touchstart', handler, { passive: false });
+    button.addEventListener('mousedown', handler);
+}
+
 startBtn.addEventListener('click', startGame);
 restartBtn.addEventListener('click', () => {
     resetState();
@@ -322,6 +336,10 @@ window.addEventListener('resize', () => {
 });
 
 document.addEventListener('keydown', handleKeydown);
+bindTouchButton(touchUpBtn, { x: 0, y: -1 });
+bindTouchButton(touchDownBtn, { x: 0, y: 1 });
+bindTouchButton(touchLeftBtn, { x: -1, y: 0 });
+bindTouchButton(touchRightBtn, { x: 1, y: 0 });
 
 setActiveScreen(menuScreen);
 loadBestScore();
