@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake - Game Hub</title>
+    <link rel="stylesheet" href="snake-style.css">
+</head>
+<body>
+    <div class="screen" id="menuScreen">
+        <div class="menu-card">
+            <h1 class="game-title">Snake</h1>
+            <p class="subtitle">Eat, grow, and avoid the walls</p>
+
+            <div class="settings">
+                <div class="setting">
+                    <label for="speed">Speed</label>
+                    <select id="speed">
+                        <option value="160">Easy</option>
+                        <option value="120" selected>Medium</option>
+                        <option value="90">Fast</option>
+                    </select>
+                </div>
+                <div class="setting">
+                    <label for="grid">Grid Size</label>
+                    <select id="grid">
+                        <option value="16">16 x 16</option>
+                        <option value="20" selected>20 x 20</option>
+                        <option value="24">24 x 24</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="startBtn" class="primary-btn">Start Game</button>
+                <button class="secondary-btn" onclick="window.location.href='../../index.html'">← Back to Home</button>
+            </div>
+
+            <div class="controls">
+                <h2>Controls</h2>
+                <p>Arrow keys or WASD</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="screen" id="gameScreen">
+        <div class="game-header">
+            <button class="home-btn" id="homeBtn">← Home</button>
+            <div class="score-panel">
+                <div class="score-item">
+                    <span class="label">Score</span>
+                    <span class="value" id="score">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="label">Best</span>
+                    <span class="value" id="bestScore">0</span>
+                </div>
+            </div>
+            <button class="pause-btn" id="pauseBtn">⏸ Pause</button>
+        </div>
+
+        <div class="game-area">
+            <canvas id="gameCanvas" width="500" height="500"></canvas>
+            <div class="status" id="statusText"></div>
+        </div>
+
+        <div class="game-actions">
+            <button id="restartBtn" class="primary-btn">Restart</button>
+            <button id="backBtn" class="secondary-btn">Back to Menu</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="pauseOverlay">
+        <div class="overlay-card">
+            <h2>Paused</h2>
+            <p>Press resume to continue.</p>
+            <button id="resumeBtn" class="primary-btn">Resume</button>
+        </div>
+    </div>
+
+    <script src="snake-script.js"></script>
+</body>
+</html>
