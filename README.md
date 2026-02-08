@@ -64,26 +64,24 @@ No additional dependencies or installation steps are required.
 The project is organized by game.  
 Each game has its own HTML, CSS, and JavaScript files.
 
----
-
+```text
 Game-Hub/
 ├── index.html
 ├── style.css
-├── games/
-├── dots-boxes/
-│ ├── dots-boxes.html
-│ ├── game-style.css
-│ └── game-script.js
-├── Tic-Tac-Toe/
-│ ├── tic-tac-toe.html
-│ ├── tic-tac-toe-style.css
-│ └── tic-tac-toe-script.js
-├── Snake/
-├── snake.html
-├── snake-style.css
-└── snake-script.js
-
----
+└── games/
+    ├── dots-boxes/
+    │   ├── dots-boxes.html
+    │   ├── game-style.css
+    │   └── game-script.js
+    ├── Tic-Tac-Toe/
+    │   ├── tic-tac-toe.html
+    │   ├── tic-tac-toe-style.css
+    │   └── tic-tac-toe-script.js
+    └── Snake/
+        ├── snake.html
+        ├── snake-style.css
+        └── snake-script.js
+```
 
 ## Code Organization
 
