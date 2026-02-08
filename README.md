@@ -82,7 +82,6 @@ Game-Hub/
 ├── snake-style.css
 └── snake-script.js
 
-
 ---
 
 ## Code Organization
