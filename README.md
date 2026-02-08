@@ -1,47 +1,111 @@
 # Game Hub
 
-Game Hub is a polished, browser-based collection of mini games built with HTML, CSS, and JavaScript. It focuses on clean UI, quick play sessions, and mobile-friendly interaction.
+Game Hub is a browser-based collection of mini games built using **HTML, CSS, and JavaScript**.  
+It is designed with a clean user interface, quick gameplay sessions, and full mobile responsiveness.
 
-Developer: Muhammad Amaan
+**Developer:** Muhammad Amaan
 
-## Games
+---
 
-Dots & Boxes
-A classic turn-based strategy game where players connect adjacent dots to complete boxes. Each completed box scores a point and grants an extra turn. Tap or click two adjacent dots to draw a line.
+## Overview
 
-Tic-Tac-Toe
-The timeless 3x3 grid game. Take turns placing Xs and Os and be the first to align three in a row horizontally, vertically, or diagonally.
+Game Hub brings multiple classic games together in one simple and polished interface.  
+Each game is lightweight, responsive, and playable directly in the browser without any setup or installation.
 
-Snake
-Guide the snake to eat food and grow longer while avoiding walls and self-collisions. Use Arrow keys or WASD on desktop, and on-screen touch controls on mobile.
+---
+
+## Available Games
+
+### 🎯 Dots & Boxes
+A classic turn-based strategy game where players connect adjacent dots to complete boxes.
+
+- Players take turns drawing lines between two adjacent dots  
+- Completing a box earns a point and grants an extra turn  
+- The player with the highest score wins  
+
+**How to play:**  
+Click or tap two adjacent dots to draw a line.
+
+---
+
+### ❌⭕ Tic-Tac-Toe
+The timeless 3×3 grid game for two players.
+
+- Players alternate placing **X** and **O**  
+- First to align three symbols horizontally, vertically, or diagonally wins  
+- Simple logic with instant feedback  
+
+---
+
+### 🐍 Snake
+A fast-paced arcade classic.
+
+- Guide the snake to eat food and grow longer  
+- Avoid walls and self-collisions  
+- Game ends when the snake crashes  
+
+**Controls:**  
+- Desktop: Arrow keys or WASD  
+- Mobile: On-screen touch controls  
+
+---
 
 ## Getting Started
-1. Open `index.html` in a browser.
-2. Click a game card to start playing.
+
+1. Download or clone this repository.
+2. Open `index.html` in any modern web browser.
+3. Click on a game card to start playing.
+
+No additional dependencies or installation steps are required.
+
+---
 
 ## Project Structure
-- `index.html` and `style.css`: Main hub page
-- `games/`: Individual game folders with their own HTML, CSS, and JS
 
-## Code Structure
-The project is organized by game, with each game having its own HTML, CSS, and JavaScript files.
+The project is organized by game.  
+Each game has its own HTML, CSS, and JavaScript files.
 
-- Root
-  - `index.html`: Game hub entry point
-  - `style.css`: Game hub styling
+Game-Hub/
+├── index.html
+├── style.css
+└── games/
+├── dots-boxes/
+│ ├── dots-boxes.html
+│ ├── game-style.css
+│ └── game-script.js
+├── Tic-Tac-Toe/
+│ ├── tic-tac-toe.html
+│ ├── tic-tac-toe-style.css
+│ └── tic-tac-toe-script.js
+└── Snake/
+├── snake.html
+├── snake-style.css
+└── snake-script.js
 
-- `games/dots-boxes/`
-  - `dots-boxes.html`: Game layout and UI
-  - `game-style.css`: Game styling
-  - `game-script.js`: Game logic and interactions
-- `games/Tic-Tac-Toe/`
-  - `tic-tac-toe.html`: Game layout and UI
-  - `tic-tac-toe-style.css`: Game styling
-  - `tic-tac-toe-script.js`: Game logic and interactions
-- `games/Snake/`
-  - `snake.html`: Game layout and UI
-  - `snake-style.css`: Game styling
-  - `snake-script.js`: Game logic and interactions
+
+---
+
+## Code Organization
+
+- **HTML** handles structure and layout  
+- **CSS** manages styling and responsiveness  
+- **JavaScript** controls game logic and interactions  
+
+Each game is fully self-contained, making the project easy to maintain and extend.
+
+---
 
 ## Roadmap
-More games will be launched in future updates.
+
+- Add more classic and casual games  
+- Improve animations and sound effects  
+- Enhance mobile controls and accessibility  
+
+More games and features will be added in future updates.
+
+---
+
+## License
+
+This project is open for learning and personal use.  
+Feel free to explore, modify, and expand it.
