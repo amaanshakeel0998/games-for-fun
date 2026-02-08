@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe - Game Hub</title>
+    <link rel="stylesheet" href="tic-tac-toe-style.css">
+</head>
+<body>
+    <!-- Setup Screen -->
+    <div id="setupScreen" class="screen active">
+        <div class="setup-container">
+            <h1 class="game-title">Tic-Tac-Toe</h1>
+            
+            <div class="setup-section">
+                <h2>Player 1 (X)</h2>
+                <input type="text" id="player1Name" class="player-input" placeholder="Enter Player 1 Name" maxlength="20">
+                <div class="color-picker-container">
+                    <label>Choose Color:</label>
+                    <input type="color" id="player1Color" value="#ff00ff">
+                </div>
+            </div>
+
+            <div class="setup-section">
+                <h2>Player 2 (O)</h2>
+                <input type="text" id="player2Name" class="player-input" placeholder="Enter Player 2 Name" maxlength="20">
+                <div class="color-picker-container">
+                    <label>Choose Color:</label>
+                    <input type="color" id="player2Color" value="#00ffff">
+                </div>
+            </div>
+
+            <div class="setup-section">
+                <h2>Game Mode</h2>
+                <div class="mode-options">
+                    <button class="mode-btn selected" data-mode="pvp">Player vs Player</button>
+                    <button class="mode-btn" data-mode="pvc">Player vs Computer</button>
+                </div>
+                <div id="difficultySection" class="difficulty-section" style="display: none;">
+                    <label>Difficulty:</label>
+                    <select id="difficulty" class="difficulty-select">
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="startGameBtn" class="start-btn">Start Game</button>
+            <button class="home-btn" onclick="window.location.href='../../index.html'">← Back to Home</button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" class="screen">
+        <div class="game-header">
+            <button class="home-btn-small" onclick="confirmExit()">← Home</button>
+            
+            <div class="players-info">
+                <div class="player-info" id="player1Info">
+                    <div class="player-indicator">
+                        <span class="player-symbol">X</span>
+                        <span class="player-name" id="p1Name"></span>
+                    </div>
+                    <div class="player-score" id="p1Score">Wins: 0</div>
+                </div>
+
+                <div class="turn-indicator">
+                    <div class="current-turn" id="currentTurn">X's Turn</div>
+                </div>
+
+                <div class="player-info" id="player2Info">
+                    <div class="player-indicator">
+                        <span class="player-symbol">O</span>
+                        <span class="player-name" id="p2Name"></span>
+                    </div>
+                    <div class="player-score" id="p2Score">Wins: 0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-container">
+            <div class="board-wrapper">
+                <div id="gameBoard" class="game-board">
+                    <div class="cell" data-index="0"></div>
+                    <div class="cell" data-index="1"></div>
+                    <div class="cell" data-index="2"></div>
+                    <div class="cell" data-index="3"></div>
+                    <div class="cell" data-index="4"></div>
+                    <div class="cell" data-index="5"></div>
+                    <div class="cell" data-index="6"></div>
+                    <div class="cell" data-index="7"></div>
+                    <div class="cell" data-index="8"></div>
+                </div>
+                <canvas id="winLine" class="win-line"></canvas>
+            </div>
+            
+            <div class="game-actions">
+                <button id="resetBtn" class="action-btn">🔄 Reset Game</button>
+                <button id="newMatchBtn" class="action-btn">🆕 New Match</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="gameOverModal" class="game-over-modal">
+        <div class="modal-content">
+            <h2 id="resultTitle" class="result-title"></h2>
+            <p id="resultMessage" class="result-message"></p>
+            <div class="modal-buttons">
+                <button class="play-again-btn" onclick="resetGame()">Play Again</button>
+                <button class="new-match-btn" onclick="newMatch()">New Match</button>
+                <button class="home-btn-modal" onclick="window.location.href='../../index.html'">Home</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="tic-tac-toe-script.js"></script>
+</body>
+</html>
