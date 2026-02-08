@@ -16,6 +16,7 @@ let gameState = {
     isPaused: false,
     dotsSelected: 0
 };
+const DOTS_BOXES_RESULT_KEY = 'gamehub.dotsboxes.lastResult';
 
 // DOM Elements
 const setupScreen = document.getElementById('setupScreen');
@@ -656,6 +657,16 @@ function endGame() {
             <span class="final-player-score">${gameState.player2.score} boxes</span>
         </div>
     `;
+
+    try {
+        localStorage.setItem(DOTS_BOXES_RESULT_KEY, JSON.stringify({
+            player1: { name: gameState.player1.name, score: gameState.player1.score },
+            player2: { name: gameState.player2.name, score: gameState.player2.score },
+            finishedAt: new Date().toISOString()
+        }));
+    } catch (err) {
+        // Ignore storage errors to avoid affecting gameplay.
+    }
     
     gameScreen.classList.remove('active');
     gameOverScreen.classList.add('active');

@@ -33,10 +33,31 @@ let bestScore = 0;
 let intervalId = null;
 let isPaused = false;
 let isGameOver = false;
+const SNAKE_BEST_SCORE_KEY = 'gamehub.snake.bestScore';
 
 function setActiveScreen(screen) {
     [menuScreen, gameScreen].forEach(el => el.classList.remove('active'));
     screen.classList.add('active');
+}
+
+function loadBestScore() {
+    try {
+        const stored = localStorage.getItem(SNAKE_BEST_SCORE_KEY);
+        const parsed = parseInt(stored, 10);
+        if (!Number.isNaN(parsed)) {
+            bestScore = parsed;
+        }
+    } catch (err) {
+        // Ignore storage errors to avoid affecting gameplay.
+    }
+}
+
+function saveBestScore() {
+    try {
+        localStorage.setItem(SNAKE_BEST_SCORE_KEY, bestScore.toString());
+    } catch (err) {
+        // Ignore storage errors to avoid affecting gameplay.
+    }
 }
 
 function resizeCanvas() {
@@ -97,6 +118,7 @@ function placeFood() {
 function handleNoSpace() {
     isGameOver = true;
     statusText.textContent = 'You win!';
+    saveBestScore();
     if (intervalId) {
         clearInterval(intervalId);
         intervalId = null;
@@ -196,6 +218,7 @@ function gameTick() {
     if (hitWall || hitSelf) {
         isGameOver = true;
         statusText.textContent = 'Game Over';
+        saveBestScore();
         if (intervalId) {
             clearInterval(intervalId);
             intervalId = null;
@@ -301,6 +324,7 @@ window.addEventListener('resize', () => {
 document.addEventListener('keydown', handleKeydown);
 
 setActiveScreen(menuScreen);
+loadBestScore();
 resizeCanvas();
 resetState();
 drawBoard();

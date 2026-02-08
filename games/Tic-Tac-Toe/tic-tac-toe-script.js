@@ -9,6 +9,7 @@ let gameState = {
     gameActive: false,
     isComputerThinking: false
 };
+const TTT_WINS_KEY = 'gamehub.tictactoe.wins';
 
 // DOM Elements
 const setupScreen = document.getElementById('setupScreen');
@@ -53,6 +54,31 @@ const winningCombos = [
     [0, 4, 8], // Diagonal \
     [2, 4, 6]  // Diagonal /
 ];
+
+function loadStoredWins() {
+    try {
+        const raw = localStorage.getItem(TTT_WINS_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (typeof data?.player1 === 'number' && typeof data?.player2 === 'number') {
+            gameState.player1.wins = data.player1;
+            gameState.player2.wins = data.player2;
+        }
+    } catch (err) {
+        // Ignore storage errors to avoid affecting gameplay.
+    }
+}
+
+function saveStoredWins() {
+    try {
+        localStorage.setItem(TTT_WINS_KEY, JSON.stringify({
+            player1: gameState.player1.wins,
+            player2: gameState.player2.wins
+        }));
+    } catch (err) {
+        // Ignore storage errors to avoid affecting gameplay.
+    }
+}
 
 // Setup Event Listeners
 modeButtons.forEach(btn => {
@@ -290,6 +316,7 @@ function handleWin(combo) {
         gameState.player2.wins++;
         p2ScoreDisplay.textContent = `Wins: ${gameState.player2.wins}`;
     }
+    saveStoredWins();
     
     // Highlight winning cells
     combo.forEach(index => {
@@ -310,6 +337,7 @@ function handleWin(combo) {
 
 function handleDraw() {
     gameState.gameActive = false;
+    saveStoredWins();
     
     setTimeout(() => {
         resultTitle.textContent = `🤝 It's a Draw! 🤝`;
@@ -411,6 +439,7 @@ function newMatch() {
     gameState.player2.wins = 0;
     p1ScoreDisplay.textContent = 'Wins: 0';
     p2ScoreDisplay.textContent = 'Wins: 0';
+    saveStoredWins();
     
     // Reset game
     resetGame();
@@ -429,3 +458,4 @@ function confirmExit() {
 
 // Initialize
 modeButtons[0].classList.add('selected');
+loadStoredWins();
