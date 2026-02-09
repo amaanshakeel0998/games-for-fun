@@ -50,6 +50,19 @@ A fast-paced arcade classic.
 
 ---
 
+### 🟦 Tetris
+The iconic block-stacking puzzle game.
+
+- Rotate and place falling tetrominoes  
+- Clear full lines to score points  
+- Speed increases as you level up  
+
+**Controls:**  
+- Desktop: Arrow keys + Space (hard drop)  
+- Mobile: On-screen touch controls  
+
+---
+
 ## Getting Started
 
 1. Download or clone this repository.
@@ -77,10 +90,14 @@ Game-Hub/
     │   ├── tic-tac-toe.html
     │   ├── tic-tac-toe-style.css
     │   └── tic-tac-toe-script.js
-    └── Snake/
-        ├── snake.html
-        ├── snake-style.css
-        └── snake-script.js
+    ├── Snake/
+    │   ├── snake.html
+    │   ├── snake-style.css
+    │   └── snake-script.js
+    └── Tetris/
+        ├── tetris.html
+        ├── tetris-style.css
+        └── tetris-script.js
 ```
 
 ## Code Organization
