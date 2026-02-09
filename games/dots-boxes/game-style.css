@@ -4,9 +4,20 @@
     box-sizing: border-box;
 }
 
+:root {
+    --bg-start: #0b132b;
+    --bg-end: #1b264f;
+    --panel: rgba(15, 22, 40, 0.72);
+    --panel-soft: rgba(26, 34, 54, 0.55);
+    --panel-border: rgba(255, 255, 255, 0.12);
+    --text-soft: #cbd5f0;
+    --accent-cyan: #5ff8ff;
+    --accent-magenta: #ff4fd8;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
     min-height: 100vh;
     overflow-x: hidden;
 }
@@ -20,8 +31,8 @@ body::before {
     width: 100%;
     height: 100%;
     background:
-        radial-gradient(circle at 30% 30%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 70% 70%, rgba(0, 255, 255, 0.15) 0%, transparent 50%);
+        radial-gradient(circle at 30% 30%, rgba(255, 79, 216, 0.14) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(95, 248, 255, 0.14) 0%, transparent 50%);
     animation: backgroundShift 15s ease-in-out infinite;
     z-index: -1;
 }
@@ -79,10 +90,75 @@ body::before {
     font-size: 3rem;
     color: #fff;
     margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
     text-shadow:
         0 0 10px rgba(0, 255, 255, 0.8),
         0 0 20px rgba(255, 0, 255, 0.6);
     font-weight: 900;
+}
+
+.game-icon {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: rgba(9, 14, 29, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    flex: 0 0 auto;
+}
+
+.game-icon::before,
+.game-icon::after {
+    content: '';
+    position: absolute;
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    filter: blur(18px);
+    opacity: 0.75;
+    animation: liquidDrift 6s ease-in-out infinite;
+}
+
+.game-icon::before {
+    background: radial-gradient(circle at 30% 30%, rgba(95, 248, 255, 0.8), transparent 60%);
+    top: -30px;
+    left: -20px;
+}
+
+.game-icon::after {
+    background: radial-gradient(circle at 70% 70%, rgba(255, 79, 216, 0.75), transparent 60%);
+    bottom: -32px;
+    right: -18px;
+    animation-delay: -3s;
+}
+
+.game-icon svg {
+    width: 30px;
+    height: 30px;
+    color: #eaf4ff;
+    fill: currentColor;
+    filter: drop-shadow(0 0 10px rgba(95, 248, 255, 0.6));
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes liquidDrift {
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(8px, -6px) scale(1.08);
+    }
 }
 
 .setup-section {
@@ -802,6 +878,47 @@ body::before {
 .restart-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 30px rgba(0, 255, 255, 0.6);
+}
+
+/* Theme Tuning */
+.setup-container,
+.setup-section,
+.game-header,
+.player-info,
+.timer-container,
+.game-board,
+.pause-content,
+.confirm-content,
+.gameover-container,
+.final-score-item {
+    background: var(--panel);
+    border-color: var(--panel-border);
+}
+
+.setup-section,
+.player-info,
+.timer-container,
+.final-score-item {
+    background: var(--panel-soft);
+}
+
+.player-input,
+.grid-btn,
+.home-btn,
+.home-btn-small,
+.zoom-btn,
+.custom-grid input[type="number"],
+.confirm-no,
+.quit-btn {
+    background: rgba(18, 24, 44, 0.65);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.player-score,
+.timer-label,
+.pause-content p,
+.confirm-content p {
+    color: var(--text-soft);
 }
 
 /* Responsive Design */
