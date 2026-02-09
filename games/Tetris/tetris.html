@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris - Game Hub</title>
+    <link rel="stylesheet" href="tetris-style.css">
+</head>
+<body>
+    <!-- Setup Screen -->
+    <div id="setupScreen" class="screen active">
+        <div class="setup-container">
+            <h1 class="game-title">Tetris</h1>
+            
+            <div class="setup-section">
+                <h2>Player Name</h2>
+                <input type="text" id="playerName" class="player-input" placeholder="Enter Your Name" maxlength="20">
+            </div>
+
+            <div class="setup-section">
+                <h2>Difficulty</h2>
+                <div class="difficulty-options">
+                    <button class="difficulty-btn selected" data-level="easy">Easy</button>
+                    <button class="difficulty-btn" data-level="medium">Medium</button>
+                    <button class="difficulty-btn" data-level="hard">Hard</button>
+                </div>
+                <div class="difficulty-info">
+                    <p id="difficultyDesc">Starting speed: Slow</p>
+                </div>
+            </div>
+
+            <div class="setup-section">
+                <h2>Controls</h2>
+                <div class="controls-info">
+                    <div class="control-item">
+                        <span class="key">←</span>
+                        <span class="action">Move Left</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">→</span>
+                        <span class="action">Move Right</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">↓</span>
+                        <span class="action">Soft Drop</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">↑</span>
+                        <span class="action">Rotate</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">Space</span>
+                        <span class="action">Hard Drop</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">P</span>
+                        <span class="action">Pause</span>
+                    </div>
+                </div>
+            </div>
+
+            <button id="startGameBtn" class="start-btn">Start Game</button>
+            <button class="home-btn" onclick="window.location.href='../../index.html'">← Back to Home</button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" class="screen">
+        <div class="game-header">
+            <button class="home-btn-small" onclick="confirmExit()">← Home</button>
+            <button class="pause-btn" id="pauseBtn" onclick="togglePause()">⏸ Pause</button>
+        </div>
+
+        <div class="game-layout">
+            <!-- Left Panel - Stats -->
+            <div class="left-panel">
+                <div class="stat-box">
+                    <h3>Player</h3>
+                    <p id="playerNameDisplay">Player</p>
+                </div>
+                
+                <div class="stat-box">
+                    <h3>Score</h3>
+                    <p id="scoreDisplay" class="score-value">0</p>
+                </div>
+                
+                <div class="stat-box">
+                    <h3>Level</h3>
+                    <p id="levelDisplay" class="level-value">1</p>
+                </div>
+                
+                <div class="stat-box">
+                    <h3>Lines</h3>
+                    <p id="linesDisplay" class="lines-value">0</p>
+                </div>
+            </div>
+
+            <!-- Center - Game Board -->
+            <div class="center-panel">
+                <canvas id="gameCanvas" width="300" height="600"></canvas>
+                <div id="gameOverOverlay" class="game-over-overlay">
+                    <h2>Game Over!</h2>
+                    <p id="finalScore">Score: 0</p>
+                    <div class="overlay-buttons">
+                        <button onclick="restartGame()">Play Again</button>
+                        <button onclick="backToSetup()">Main Menu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Next Piece & Controls -->
+            <div class="right-panel">
+                <div class="next-piece-box">
+                    <h3>Next</h3>
+                    <canvas id="nextPieceCanvas" width="120" height="120"></canvas>
+                </div>
+
+                <div class="mobile-controls">
+                    <div class="control-row">
+                        <button class="control-button" id="rotateBtn">↻</button>
+                    </div>
+                    <div class="control-row">
+                        <button class="control-button" id="leftBtn">←</button>
+                        <button class="control-button" id="downBtn">↓</button>
+                        <button class="control-button" id="rightBtn">→</button>
+                    </div>
+                    <div class="control-row">
+                        <button class="control-button drop-btn" id="dropBtn">Drop</button>
+                    </div>
+                </div>
+
+                <div class="high-score-box">
+                    <h3>High Score</h3>
+                    <p id="highScoreDisplay">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pause Modal -->
+    <div id="pauseModal" class="pause-modal">
+        <div class="pause-content">
+            <h2>Game Paused</h2>
+            <p>Take a break!</p>
+            <div class="pause-buttons">
+                <button class="resume-btn" onclick="togglePause()">▶ Resume</button>
+                <button class="restart-btn" onclick="restartGame()">🔄 Restart</button>
+                <button class="quit-btn" onclick="backToSetup()">📋 Main Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="confirm-modal" aria-hidden="true">
+        <div class="confirm-content" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+            <h2 id="confirmTitle">Confirm Action</h2>
+            <p id="confirmMessage"></p>
+            <div class="confirm-buttons">
+                <button class="confirm-yes" id="confirmYes">Yes</button>
+                <button class="confirm-no" id="confirmNo">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="tetris-script.js"></script>
+</body>
+</html>
